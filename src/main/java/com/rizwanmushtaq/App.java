@@ -1,17 +1,18 @@
 package com.rizwanmushtaq;
 
-import com.rizwanmushtaq.models.Coordinate;
-import com.rizwanmushtaq.services.implementations.ORSAPIService;
+import com.rizwanmushtaq.config.EmissionFactorsConfig;
+import com.rizwanmushtaq.services.implementations.ORSDistanceService;
+import com.rizwanmushtaq.utils.AppUtils;
+import com.rizwanmushtaq.utils.NumberUtils;
 
 import java.util.Map;
 
 import static com.rizwanmushtaq.utils.AppUtils.parseArgs;
 
 public class App {
+  private static final ORSDistanceService distanceService = new ORSDistanceService();
 
   public static void main(String[] args) {
-    System.out.println("Hello World!");
-    run();
 
     try {
       Map<String, String> params = parseArgs(args);
@@ -24,16 +25,15 @@ public class App {
         System.exit(2);
       }
 
-      System.out.println(start + " to " + end + " by " + transportKey);
+      double distance = distanceService.getDistanceBetweenCities(start, end);
+      double emissionFactor =
+          EmissionFactorsConfig.getEmissionFactor(transportKey);
+      double totalEmissions = distance * emissionFactor;
+      double truncatedTotalEmissions = NumberUtils.truncate(totalEmissions, 1);
+      AppUtils.printResult(truncatedTotalEmissions);
     } catch (Exception e) {
       System.err.println("Error parsing arguments: " + e.getMessage());
       System.exit(1);
     }
-  }
-
-  private static void run() {
-    final ORSAPIService apiService = new ORSAPIService();
-    final Coordinate city = apiService.getCityCoordinates("Munich");
-    System.out.println("City: " + city);
   }
 }

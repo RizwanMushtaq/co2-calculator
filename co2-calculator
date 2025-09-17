@@ -1,0 +1,4 @@
+#!/bin/bash
+# Cross-platform wrapper for CO2 Calculator
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+java -jar "$SCRIPT_DIR/target/co2-calculator.jar" "$@"

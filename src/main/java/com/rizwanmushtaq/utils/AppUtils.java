@@ -36,4 +36,8 @@ public class AppUtils {
     }
     return s;
   }
+
+  public static void printResult(double result) {
+    System.out.println("Your trip caused " + result + "kg of CO2-equivalent.");
+  }
 }

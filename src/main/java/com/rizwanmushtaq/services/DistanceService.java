@@ -1,5 +1,5 @@
 package com.rizwanmushtaq.services;
 
 public interface DistanceService {
-  double getDistanceInKm(String startCity, String endCity);
+  double getDistanceBetweenCities(String startCity, String endCity);
 }

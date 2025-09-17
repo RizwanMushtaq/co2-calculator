@@ -57,6 +57,7 @@
                             <mainClass>com.rizwanmushtaq.App</mainClass>
                         </transformer>
                     </transformers>
+                    <finalName>co2-calculator</finalName>
                 </configuration>
                 <executions>
                     <execution>

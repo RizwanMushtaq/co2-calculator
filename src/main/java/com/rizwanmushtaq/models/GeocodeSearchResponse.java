@@ -11,18 +11,18 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
-public class GeoJsonResponse {
+public class GeocodeSearchResponse {
   private List<Feature> features;
 
   public Coordinate getCoordinate() {
     return new Coordinate(getLongitude(), getLatitude());
   }
 
-  public Double getLongitude() {
+  public double getLongitude() {
     return features.getFirst().getGeometry().getLongitude();
   }
 
-  public Double getLatitude() {
+  public double getLatitude() {
     return features.getFirst().getGeometry().getLatitude();
   }
 
