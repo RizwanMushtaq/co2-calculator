@@ -20,6 +20,15 @@ public class GlobalExceptionHandler {
     System.exit(ExitCodes.INVALID_INPUT);
   }
 
+  public static void orsTokenException(Exception e, boolean debug) {
+    if (debug) {
+      logger.error("ORS_TOKEN error: ", e);
+    } else {
+      logger.error("ORS_TOKEN error: {}", e.getMessage());
+    }
+    System.exit(ExitCodes.CONFIG_ERROR);
+  }
+
   public static void externalException(Exception e, boolean debug) {
     if (debug) {
       logger.error("External/API error: ", e);
