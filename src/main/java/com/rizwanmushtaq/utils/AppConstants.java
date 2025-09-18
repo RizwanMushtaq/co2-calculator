@@ -1,5 +1,8 @@
 package com.rizwanmushtaq.utils;
 
+/**
+ * Application constants
+ */
 public class AppConstants {
   public static final String GEOCODE_URL = "https://api.openrouteservice.org/geocode/search";
   public static final String MATRIX_URL = "https://api.openrouteservice.org/v2/matrix/driving-car";

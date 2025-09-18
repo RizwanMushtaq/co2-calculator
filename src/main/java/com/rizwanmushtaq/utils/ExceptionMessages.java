@@ -1,5 +1,8 @@
 package com.rizwanmushtaq.utils;
 
+/**
+ * Exception messages used in the application
+ */
 public class ExceptionMessages {
   public static final String GET_CITY_COORDINATES_FAILED =
       "Failed to fetch coordinates for city.";
