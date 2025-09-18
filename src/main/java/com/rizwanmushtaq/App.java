@@ -4,20 +4,16 @@ import com.rizwanmushtaq.exceptions.EmissionFactorsConfigException;
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
 import com.rizwanmushtaq.exceptions.InvalidTransportationMethodException;
 import com.rizwanmushtaq.exceptions.ORSTokenException;
-import com.rizwanmushtaq.services.implementations.ORSDistanceService;
+import com.rizwanmushtaq.services.EmissionCalculatorService;
+import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import static com.rizwanmushtaq.config.EmissionFactorsConfig.getEmissionFactor;
-import static com.rizwanmushtaq.config.EmissionFactorsConfig.loadConfig;
 import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.*;
 import static com.rizwanmushtaq.utils.AppConstants.DEBUG;
-import static com.rizwanmushtaq.utils.AppConstants.ORS_TOKEN;
-import static com.rizwanmushtaq.utils.AppUtils.checkORSToken;
 import static com.rizwanmushtaq.utils.AppUtils.printResult;
 import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
-import static com.rizwanmushtaq.utils.NumberUtils.truncate;
 
 @Command(
     name = "co2-calculator",
@@ -26,8 +22,6 @@ import static com.rizwanmushtaq.utils.NumberUtils.truncate;
     description = "Calculates CO2 emissions between two cities."
 )
 public class App implements Runnable {
-  private static final ORSDistanceService distanceService = new ORSDistanceService();
-
   @Option(names = "--start", required = true, description = "Start city")
   private String start;
 
@@ -49,26 +43,25 @@ public class App implements Runnable {
   @Override
   public void run() {
     try {
-      checkORSToken(ORS_TOKEN);
-      loadConfig();
+      AppInitializer.init();
+      EmissionCalculatorService emissionCalculatorService =
+          new ORSEmissionCalculatorService();
+      double result = emissionCalculatorService.calculateEmissions(start, end, transportMethod);
 
-      double distance = distanceService.getDistanceBetweenCities(start, end);
-      double emissionFactorGrams = getEmissionFactor(transportMethod);
-      double emissionFactorKg = emissionFactorGrams / 1000.0;
-      double totalEmissions = distance * emissionFactorKg;
-      double truncatedTotalEmissions = truncate(totalEmissions, 1);
-
-      printResult(truncatedTotalEmissions);
-    } catch (InvalidTransportationMethodException e) {
-      userException(e, DEBUG);
-    } catch (EmissionFactorsConfigException e) {
-      emissionFactorsConfigException(e, DEBUG);
-    } catch (ExternalAPIException e) {
-      externalException(e, DEBUG);
-    } catch (ORSTokenException e) {
-      orsTokenException(e, DEBUG);
+      printResult(result);
     } catch (Exception e) {
-      unexpectedException(e, DEBUG);
+      handleException(e);
+    }
+  }
+
+  private void handleException(Exception e) {
+    switch (e) {
+      case InvalidTransportationMethodException ex -> userException(ex, DEBUG);
+      case EmissionFactorsConfigException ex ->
+          emissionFactorsConfigException(ex, DEBUG);
+      case ExternalAPIException ex -> externalException(ex, DEBUG);
+      case ORSTokenException ex -> orsTokenException(ex, DEBUG);
+      default -> unexpectedException(e, DEBUG);
     }
   }
 }
