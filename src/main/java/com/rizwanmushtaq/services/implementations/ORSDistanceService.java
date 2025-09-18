@@ -10,12 +10,9 @@ public class ORSDistanceService implements DistanceService {
 
   @Override
   public double getDistanceBetweenCities(String startCity, String endCity) {
-    Coordinate start = apiService.getCityCoordinates(startCity);
-    Coordinate end = apiService.getCityCoordinates(endCity);
+    Coordinate startCoordinates = apiService.getCityCoordinates(startCity);
+    Coordinate endCoordinates = apiService.getCityCoordinates(endCity);
 
-    if (start != null && end != null) {
-      return apiService.getDistanceBetweenCoordinates(start, end);
-    }
-    return 0;
+    return apiService.getDistanceBetweenCoordinates(startCoordinates, endCoordinates);
   }
 }

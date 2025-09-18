@@ -5,5 +5,5 @@ import com.rizwanmushtaq.models.Coordinate;
 public interface APIService {
   Coordinate getCityCoordinates(String city);
 
-  Double getDistanceBetweenCoordinates(Coordinate start, Coordinate end);
+  double getDistanceBetweenCoordinates(Coordinate start, Coordinate end);
 }

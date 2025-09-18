@@ -1,39 +1,53 @@
 package com.rizwanmushtaq;
 
-import com.rizwanmushtaq.config.EmissionFactorsConfig;
+import com.rizwanmushtaq.exceptions.*;
 import com.rizwanmushtaq.services.implementations.ORSDistanceService;
-import com.rizwanmushtaq.utils.AppUtils;
-import com.rizwanmushtaq.utils.NumberUtils;
 
 import java.util.Map;
 
+import static com.rizwanmushtaq.config.EmissionFactorsConfig.getEmissionFactor;
+import static com.rizwanmushtaq.config.EmissionFactorsConfig.loadConfig;
+import static com.rizwanmushtaq.utils.AppConstants.*;
 import static com.rizwanmushtaq.utils.AppUtils.parseArgs;
+import static com.rizwanmushtaq.utils.AppUtils.printResult;
+import static com.rizwanmushtaq.utils.ExceptionMessages.MISSING_REQUIRED_PARAMETERS;
+import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
+import static com.rizwanmushtaq.utils.NumberUtils.truncate;
 
 public class App {
   private static final ORSDistanceService distanceService = new ORSDistanceService();
 
   public static void main(String[] args) {
-
     try {
-      Map<String, String> params = parseArgs(args);
-      String start = params.get("start");
-      String end = params.get("end");
-      String transportKey = params.get("transportation-method");
-
-      if (start == null || end == null || transportKey == null) {
-        System.err.println("Missing required parameters. Usage: --start <city> --end <city> --transportation-method <method>");
-        System.exit(2);
-      }
-
-      double distance = distanceService.getDistanceBetweenCities(start, end);
-      double emissionFactor =
-          EmissionFactorsConfig.getEmissionFactor(transportKey);
-      double totalEmissions = distance * emissionFactor;
-      double truncatedTotalEmissions = NumberUtils.truncate(totalEmissions, 1);
-      AppUtils.printResult(truncatedTotalEmissions);
+      new App().run(args);
+      System.exit(SUCCESS);
+    } catch (InvalidInputException | InvalidTransportationMethodException e) {
+      GlobalExceptionHandler.userException(e, DEBUG);
+    } catch (EmissionFactorsConfigException e) {
+      GlobalExceptionHandler.emissionFactorsConfigException(e, DEBUG);
+    } catch (ExternalAPIException e) {
+      GlobalExceptionHandler.externalException(e, DEBUG);
     } catch (Exception e) {
-      System.err.println("Error parsing arguments: " + e.getMessage());
-      System.exit(1);
+      GlobalExceptionHandler.unexpectedException(e, DEBUG);
     }
+  }
+
+  private void run(String[] args) {
+    loadConfig();
+    Map<String, String> params = parseArgs(args);
+    String start = params.get(START);
+    String end = params.get(END);
+    String transportMethod = params.get(TRANSPORTATION_METHOD);
+
+    if (start == null || end == null || transportMethod == null) {
+      throw new InvalidInputException(MISSING_REQUIRED_PARAMETERS);
+    }
+
+    double distance = distanceService.getDistanceBetweenCities(start, end);
+    double emissionFactorGrams = getEmissionFactor(transportMethod);
+    double emissionFactorKg = emissionFactorGrams / 1000.0;
+    double totalEmissions = distance * emissionFactorKg;
+    double truncatedTotalEmissions = truncate(totalEmissions, 1);
+    printResult(truncatedTotalEmissions);
   }
 }
