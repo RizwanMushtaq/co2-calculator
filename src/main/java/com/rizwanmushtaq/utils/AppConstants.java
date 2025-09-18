@@ -6,9 +6,6 @@ public class AppConstants {
   public static final String ORS_TOKEN = System.getenv("ORS_TOKEN");
   public static final boolean DEBUG =
       Boolean.parseBoolean(System.getenv().getOrDefault("CO2_DEBUG", "false"));
-  public static final String START = "start";
-  public static final String END = "end";
-  public static final String TRANSPORTATION_METHOD = "transportation-method";
   public static final String AUTHORIZATION = "Authorization";
   public static final String APPLICATION_JSON = "application/json";
   public static final String LOCATIONS = "locations";
