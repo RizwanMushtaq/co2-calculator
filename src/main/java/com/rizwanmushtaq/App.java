@@ -1,6 +1,9 @@
 package com.rizwanmushtaq;
 
-import com.rizwanmushtaq.exceptions.*;
+import com.rizwanmushtaq.exceptions.EmissionFactorsConfigException;
+import com.rizwanmushtaq.exceptions.ExternalAPIException;
+import com.rizwanmushtaq.exceptions.InvalidTransportationMethodException;
+import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.services.implementations.ORSDistanceService;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -56,7 +59,7 @@ public class App implements Runnable {
       double truncatedTotalEmissions = truncate(totalEmissions, 1);
 
       printResult(truncatedTotalEmissions);
-    } catch (InvalidInputException | InvalidTransportationMethodException e) {
+    } catch (InvalidTransportationMethodException e) {
       userException(e, DEBUG);
     } catch (EmissionFactorsConfigException e) {
       emissionFactorsConfigException(e, DEBUG);
