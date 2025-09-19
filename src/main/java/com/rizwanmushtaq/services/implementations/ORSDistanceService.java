@@ -2,11 +2,17 @@ package com.rizwanmushtaq.services.implementations;
 
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.services.DistanceService;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 public class ORSDistanceService implements DistanceService {
-  private final ORSAPIService apiService = new ORSAPIService();
+  private final ORSAPIService apiService;
+
+  public ORSDistanceService() {
+    this(new ORSAPIService());
+  }
+
+  public ORSDistanceService(ORSAPIService apiService) {
+    this.apiService = apiService;
+  }
 
   @Override
   public double getDistanceBetweenCities(String startCity, String endCity) {

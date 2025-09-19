@@ -16,7 +16,17 @@ import static com.rizwanmushtaq.utils.AppConstants.*;
 import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 
 public class ORSAPIService implements APIService {
-  private final OkHttpClient client = new OkHttpClient();
+  private final OkHttpClient client;
+  private final String orsToken;
+
+  public ORSAPIService() {
+    this(new OkHttpClient(), ORS_TOKEN);
+  }
+
+  public ORSAPIService(OkHttpClient client, String orsToken) {
+    this.orsToken = orsToken;
+    this.client = client;
+  }
 
   @Override
   public Coordinate getCityCoordinates(String city) {
@@ -71,7 +81,7 @@ public class ORSAPIService implements APIService {
 
     Request request = new Request.Builder()
         .url(MATRIX_URL)
-        .addHeader(AUTHORIZATION, ORS_TOKEN)
+        .addHeader(AUTHORIZATION, orsToken)
         .post(body)
         .build();
 
@@ -94,6 +104,6 @@ public class ORSAPIService implements APIService {
   }
 
   private String getCityCoordinatesUrl(String city) {
-    return GEOCODE_URL + "?api_key=" + ORS_TOKEN + "&text=" + city + "&layers=locality" + "&size=1";
+    return GEOCODE_URL + "?api_key=" + orsToken + "&text=" + city + "&layers=locality" + "&size=1";
   }
 }

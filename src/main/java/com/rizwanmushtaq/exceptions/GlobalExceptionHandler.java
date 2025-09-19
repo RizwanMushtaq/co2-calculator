@@ -10,49 +10,58 @@ public class GlobalExceptionHandler {
   private static final Logger logger =
       LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-  public static void userException(Exception e, boolean debug) {
+  public static int userException(Exception e, boolean debug) {
     if (debug) {
       logger.error("User error: ", e);
     } else {
       logger.error("User error: {}", e.getMessage());
     }
 
-    System.exit(ExitCodes.INVALID_INPUT);
+    return ExitCodes.INVALID_INPUT;
   }
 
-  public static void orsTokenException(Exception e, boolean debug) {
+  public static int orsTokenException(Exception e, boolean debug) {
     if (debug) {
       logger.error("ORS_TOKEN error: ", e);
     } else {
       logger.error("ORS_TOKEN error: {}", e.getMessage());
     }
-    System.exit(ExitCodes.CONFIG_ERROR);
+    return ExitCodes.CONFIG_ERROR;
   }
 
-  public static void externalException(Exception e, boolean debug) {
+  public static int applicationPropertiesException(Exception e, boolean debug) {
+    if (debug) {
+      logger.error("Loading Application Properties error: ", e);
+    } else {
+      logger.error("Loading Application Properties error: {}", e.getMessage());
+    }
+    return ExitCodes.CONFIG_ERROR;
+  }
+
+  public static int externalException(Exception e, boolean debug) {
     if (debug) {
       logger.error("External/API error: ", e);
     } else {
       logger.error("External/API error: {}", e.getMessage());
     }
-    System.exit(ExitCodes.EXTERNAL_ERROR);
+    return ExitCodes.EXTERNAL_ERROR;
   }
 
-  public static void emissionFactorsConfigException(Exception e, boolean debug) {
+  public static int emissionFactorsConfigException(Exception e, boolean debug) {
     if (debug) {
       logger.error("Emission Factors Config error: ", e);
     } else {
       logger.error("Emission Factors Config error: {}", e.getMessage());
     }
-    System.exit(ExitCodes.CONFIG_ERROR);
+    return ExitCodes.CONFIG_ERROR;
   }
 
-  public static void unexpectedException(Exception e, boolean debug) {
+  public static int unexpectedException(Exception e, boolean debug) {
     if (debug) {
       logger.error("Unexpected error: ", e);
     } else {
       logger.error("Unexpected error: {}", e.getMessage());
     }
-    System.exit(ExitCodes.UNEXPECTED_ERROR);
+    return ExitCodes.UNEXPECTED_ERROR;
   }
 }
