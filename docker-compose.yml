@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  co2-calculator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: co2-calculator
+    restart: unless-stopped
+    stdin_open: true       # Needed for interactive CLI
+    tty: true              # Needed for interactive CLI
+
