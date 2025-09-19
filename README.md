@@ -1,22 +1,37 @@
 ### CO2 Calculator App (Java)
 
-#### Running the Application
+### Setting Up Environment Variables
 
-For Window users, you can run the application using the provided batch file.
-Open your command prompt and navigate to the project directory where the
-`co2-calculator.bat` file is located. Then, execute the following command:
+Open your command prompt (cmd) and follow these steps:
+For Window users:
+
+* navigate to the project directory.
+* Set ORS_TOKEN as Environment Variable in Windows Command Prompt:
+  `$env:ORS_TOKEN="your_api_key_here"`
+
+For Linux or Mac users:
+
+* navigate to the project directory.
+* Set ORS_TOKEN as Environment Variable in your terminal:
+  `export ORS_TOKEN="your_api_key_here"`
+
+### Building and Running the Application
+
+* Ensure you have Java 17 or installed on your machine.
+* Build the application using Maven:
 
 ```
-.\co2-calculator.bat --start Hamburg --end Berlin --transportation-method diesel-car-medium
-.\co2-calculator.bat --start "Los Angeles" --end "New York" --transportation-method=electric-car-large
-``` 
+mvn clean package
+```
 
-For Linux and Mac users, you can run the application using the provided shell
-script.
-Open your terminal and navigate to the project directory where the
-`co2-calculator` file is located. Then, execute the following command:
+### Running the Application
+
+* Then, execute the following commands in your terminal to play with the
+  application:
 
 ```
-./co2-calculator.sh --start Hamburg --end Berlin --transportation-method diesel-car-medium
-./co2-calculator.sh --start "Los Angeles" --end "New York" --transportation-method=electric-car-large
+./co2-calculator --version
+./co2-calculator --help  
+./co2-calculator --start Hamburg --end Berlin --transportation-method diesel-car-medium
+./co2-calculator.bat --start "Los Angeles" --end "New York" --transportation-method=electric-car-large
 ``` 
