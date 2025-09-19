@@ -72,5 +72,5 @@ jobs:
       - name: Upload JAR Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-jar
+          name: co2-calculator
           path: target/*.jar
