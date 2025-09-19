@@ -7,7 +7,7 @@ public class NumberUtils {
   /**
    * Truncates a double to the given number of decimal places (without rounding).
    *
-   * @param value  the number to truncate
+   * @param value the number to truncate
    * @param digits number of digits after the decimal point
    * @return truncated double
    */

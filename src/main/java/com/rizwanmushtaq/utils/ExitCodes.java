@@ -1,8 +1,6 @@
 package com.rizwanmushtaq.utils;
 
-/**
- * Exit codes for the application
- */
+/** Exit codes for the application */
 public final class ExitCodes {
   public static final int SUCCESS = 0;
   public static final int INVALID_INPUT = 1;

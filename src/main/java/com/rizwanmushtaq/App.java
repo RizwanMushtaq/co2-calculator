@@ -1,26 +1,24 @@
 package com.rizwanmushtaq;
 
-import com.rizwanmushtaq.services.EmissionCalculatorService;
-import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
-import com.rizwanmushtaq.utils.VersionProvider;
-import picocli.CommandLine;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-
-import java.util.concurrent.Callable;
-
 import static com.rizwanmushtaq.exceptions.ExceptionHandlers.HANDLERS;
 import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.unexpectedException;
 import static com.rizwanmushtaq.utils.AppConstants.DEBUG;
 import static com.rizwanmushtaq.utils.AppUtils.printResult;
 import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
 
+import com.rizwanmushtaq.services.EmissionCalculatorService;
+import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
+import com.rizwanmushtaq.utils.VersionProvider;
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+
 @Command(
     name = "co2-calculator",
     mixinStandardHelpOptions = true,
     versionProvider = VersionProvider.class,
-    description = "Calculates CO2 emissions between two cities."
-)
+    description = "Calculates CO2 emissions between two cities.")
 public class App implements Callable<Integer> {
   private final EmissionCalculatorService emissionCalculatorService;
 
@@ -33,8 +31,7 @@ public class App implements Callable<Integer> {
   @Option(
       names = "--transportation-method",
       required = true,
-      description = "Transportation method (e.g., diesel-car-small, petrol-car-medium etc.)"
-  )
+      description = "Transportation method (e.g., diesel-car-small, petrol-car-medium etc.)")
   private String transportMethod;
 
   public App() {
@@ -62,8 +59,7 @@ public class App implements Callable<Integer> {
     }
   }
 
-  private double calculateEmissions(String start, String end,
-                                    String transportMethod) {
+  private double calculateEmissions(String start, String end, String transportMethod) {
     return emissionCalculatorService.calculateEmissions(start, end, transportMethod);
   }
 

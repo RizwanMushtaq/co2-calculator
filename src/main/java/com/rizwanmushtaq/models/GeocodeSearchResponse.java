@@ -1,11 +1,10 @@
 package com.rizwanmushtaq.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter

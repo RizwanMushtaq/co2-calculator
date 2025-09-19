@@ -1,10 +1,10 @@
 package com.rizwanmushtaq.services.implementations;
 
-import com.rizwanmushtaq.services.DistanceService;
-import com.rizwanmushtaq.services.EmissionCalculatorService;
-
 import static com.rizwanmushtaq.config.EmissionFactorsConfig.getEmissionFactor;
 import static com.rizwanmushtaq.utils.NumberUtils.truncate;
+
+import com.rizwanmushtaq.services.DistanceService;
+import com.rizwanmushtaq.services.EmissionCalculatorService;
 
 public class ORSEmissionCalculatorService implements EmissionCalculatorService {
   private final DistanceService distanceService;

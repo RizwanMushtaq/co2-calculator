@@ -1,13 +1,13 @@
 package com.rizwanmushtaq.services.implementations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
 import com.rizwanmushtaq.models.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 class ORSDistanceServiceTest {
   private ORSAPIService mockApiService;
@@ -26,8 +26,7 @@ class ORSDistanceServiceTest {
 
     when(mockApiService.getCityCoordinates("Berlin")).thenReturn(berlin);
     when(mockApiService.getCityCoordinates("Hamburg")).thenReturn(hamburg);
-    when(mockApiService.getDistanceBetweenCoordinates(berlin, hamburg))
-        .thenReturn(289.0);
+    when(mockApiService.getDistanceBetweenCoordinates(berlin, hamburg)).thenReturn(289.0);
 
     double distance = distanceService.getDistanceBetweenCities("Berlin", "Hamburg");
 
@@ -42,10 +41,10 @@ class ORSDistanceServiceTest {
     when(mockApiService.getCityCoordinates("Berlin"))
         .thenThrow(new ExternalAPIException("network down"));
 
-    ExternalAPIException ex = assertThrows(
-        ExternalAPIException.class,
-        () -> distanceService.getDistanceBetweenCities("Berlin", "Hamburg")
-    );
+    ExternalAPIException ex =
+        assertThrows(
+            ExternalAPIException.class,
+            () -> distanceService.getDistanceBetweenCities("Berlin", "Hamburg"));
 
     assertEquals("network down", ex.getMessage());
 

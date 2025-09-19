@@ -7,8 +7,7 @@ import org.slf4j.LoggerFactory;
 
 @NoArgsConstructor
 public class GlobalExceptionHandler {
-  private static final Logger logger =
-      LoggerFactory.getLogger(GlobalExceptionHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   public static int userException(Exception e, boolean debug) {
     if (debug) {

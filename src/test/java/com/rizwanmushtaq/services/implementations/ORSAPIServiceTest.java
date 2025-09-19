@@ -1,18 +1,17 @@
 package com.rizwanmushtaq.services.implementations;
 
-import com.rizwanmushtaq.exceptions.ExternalAPIException;
-import com.rizwanmushtaq.models.Coordinate;
-import okhttp3.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-
 import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import com.rizwanmushtaq.exceptions.ExternalAPIException;
+import com.rizwanmushtaq.models.Coordinate;
+import java.io.IOException;
+import okhttp3.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class ORSAPIServiceTest {
   private static final String DUMMY_URL = "http://dummyURL";
@@ -27,8 +26,7 @@ class ORSAPIServiceTest {
   void setUp() {
     mockClient = mock(OkHttpClient.class);
     mockCall = mock(Call.class);
-    orsapiService = new ORSAPIService(mockClient, "dummyToken") {
-    };
+    orsapiService = new ORSAPIService(mockClient, "dummyToken") {};
   }
 
   private Response buildResponse(int code, String body) {
@@ -36,18 +34,15 @@ class ORSAPIServiceTest {
         .code(code)
         .protocol(Protocol.HTTP_1_1)
         .message(DUMMY_MESSAGE)
-        .request(
-            new Request
-                .Builder()
-                .url(DUMMY_URL)
-                .build())
+        .request(new Request.Builder().url(DUMMY_URL).build())
         .body(ResponseBody.create(body, JSON_MEDIA_TYPE))
         .build();
   }
 
   @Test
   void testGetCityCoordinatesSuccess() throws IOException {
-    String jsonBody = """
+    String jsonBody =
+        """
         {
           "features": [
             {
@@ -74,10 +69,8 @@ class ORSAPIServiceTest {
     when(mockClient.newCall(any(Request.class))).thenReturn(mockCall);
     when(mockCall.execute()).thenReturn(buildResponse(500, "Internal Error"));
 
-    ExternalAPIException exception = assertThrows(
-        ExternalAPIException.class,
-        () -> orsapiService.getCityCoordinates("Berlin")
-    );
+    ExternalAPIException exception =
+        assertThrows(ExternalAPIException.class, () -> orsapiService.getCityCoordinates("Berlin"));
     assertTrue(exception.getMessage().contains(GET_CITY_COORDINATES_UNSUCCESSFUL));
   }
 
@@ -86,17 +79,16 @@ class ORSAPIServiceTest {
     when(mockClient.newCall(any(Request.class))).thenReturn(mockCall);
     when(mockCall.execute()).thenThrow(new IOException("network down"));
 
-    ExternalAPIException ex = assertThrows(
-        ExternalAPIException.class,
-        () -> orsapiService.getCityCoordinates("Berlin")
-    );
+    ExternalAPIException ex =
+        assertThrows(ExternalAPIException.class, () -> orsapiService.getCityCoordinates("Berlin"));
 
     assertTrue(ex.getMessage().contains(GET_CITY_COORDINATES_FAILED));
   }
 
   @Test
   void testGetDistanceBetweenCoordinatesSuccess() throws Exception {
-    String jsonBody = """
+    String jsonBody =
+        """
         {
           "distances": [
             [0.0, 42.0],
@@ -123,10 +115,10 @@ class ORSAPIServiceTest {
     Coordinate start = new Coordinate(10.0, 20.0);
     Coordinate end = new Coordinate(30.0, 40.0);
 
-    ExternalAPIException ex = assertThrows(
-        ExternalAPIException.class,
-        () -> orsapiService.getDistanceBetweenCoordinates(start, end)
-    );
+    ExternalAPIException ex =
+        assertThrows(
+            ExternalAPIException.class,
+            () -> orsapiService.getDistanceBetweenCoordinates(start, end));
 
     assertTrue(ex.getMessage().contains(GET_DISTANCE_BETWEEN_COORDINATES_UNSUCCESSFUL));
   }
@@ -139,12 +131,11 @@ class ORSAPIServiceTest {
     Coordinate start = new Coordinate(10.0, 20.0);
     Coordinate end = new Coordinate(30.0, 40.0);
 
-    ExternalAPIException ex = assertThrows(
-        ExternalAPIException.class,
-        () -> orsapiService.getDistanceBetweenCoordinates(start, end)
-    );
+    ExternalAPIException ex =
+        assertThrows(
+            ExternalAPIException.class,
+            () -> orsapiService.getDistanceBetweenCoordinates(start, end));
 
     assertTrue(ex.getMessage().contains(GET_DISTANCE_BETWEEN_COORDINATES_FAILED));
   }
 }
-
