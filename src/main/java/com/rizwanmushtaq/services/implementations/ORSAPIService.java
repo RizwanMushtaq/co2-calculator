@@ -48,7 +48,6 @@ public class ORSAPIService implements APIService {
       }
 
       String responseBody = response.body().string();
-      System.out.println("Response Body: " + responseBody);
 
       GeocodeSearchResponse geocodeSearchResponse =
           ObjectMapperUtil.getMapper().readValue(responseBody, GeocodeSearchResponse.class);
@@ -93,7 +92,6 @@ public class ORSAPIService implements APIService {
       }
 
       String responseBody = response.body().string();
-      System.out.println("getDistanceBetweenCoordinates Response Body: " + responseBody);
 
       MatrixResponse matrix =
           ObjectMapperUtil.getMapper().readValue(responseBody, MatrixResponse.class);

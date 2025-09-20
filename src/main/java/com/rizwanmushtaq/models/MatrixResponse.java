@@ -13,7 +13,6 @@ public class MatrixResponse {
   private Double[][] distances;
 
   public Double getDistance(int fromIndex, int toIndex) {
-    System.out.println(distances[fromIndex][toIndex]);
     return distances[fromIndex][toIndex];
   }
 }
