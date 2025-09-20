@@ -1,6 +1,7 @@
 package com.rizwanmushtaq.config;
 
-import static com.rizwanmushtaq.utils.ExceptionMessages.UNKNOWN_TRANSPORTATION_METHOD;
+import static com.rizwanmushtaq.utils.AppConstants.*;
+import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.rizwanmushtaq.exceptions.EmissionFactorsConfigException;
@@ -15,8 +16,7 @@ public class EmissionFactorsConfig {
 
   public static double getEmissionFactor(String method) {
     if (emissionFactors == null) {
-      throw new EmissionFactorsConfigException(
-          "Emission factors not loaded. Call loadConfig() first.");
+      throw new EmissionFactorsConfigException(EMISSION_FACTORS_NOT_LOADED);
     }
 
     Double value = emissionFactors.get(method);
@@ -28,10 +28,10 @@ public class EmissionFactorsConfig {
 
   public static void loadConfig() {
     try (InputStream input =
-        EmissionFactorsConfig.class.getClassLoader().getResourceAsStream("Emission_Factors.json")) {
+        EmissionFactorsConfig.class.getClassLoader().getResourceAsStream(EMISSION_FACTORS_FILE)) {
 
       if (input == null) {
-        throw new EmissionFactorsConfigException("Emission_Factors.json not found in resources");
+        throw new EmissionFactorsConfigException(EMISSION_FACTORS_NOT_FOUND);
       }
 
       emissionFactors =
@@ -39,7 +39,7 @@ public class EmissionFactorsConfig {
               .readValue(input, new TypeReference<Map<String, Double>>() {});
     } catch (IOException e) {
       throw new EmissionFactorsConfigException(
-          "Failed to load Emission_Factors.json" + " - " + e.getMessage());
+          EMISSION_FACTORS_LOADING_FAILED + " - " + e.getMessage());
     }
   }
 }
