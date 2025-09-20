@@ -10,9 +10,10 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class MatrixResponse {
-  private double[][] distances;
+  private Double[][] distances;
 
-  public double getDistance(int fromIndex, int toIndex) {
+  public Double getDistance(int fromIndex, int toIndex) {
+    System.out.println(distances[fromIndex][toIndex]);
     return distances[fromIndex][toIndex];
   }
 }

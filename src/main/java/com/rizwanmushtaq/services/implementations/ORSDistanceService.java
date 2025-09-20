@@ -1,5 +1,8 @@
 package com.rizwanmushtaq.services.implementations;
 
+import static com.rizwanmushtaq.utils.ExceptionMessages.SAME_START_END_CITY;
+
+import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.services.DistanceService;
 
@@ -16,6 +19,10 @@ public class ORSDistanceService implements DistanceService {
 
   @Override
   public double getDistanceBetweenCities(String startCity, String endCity) {
+    if (startCity.equals(endCity)) {
+      throw new InvalidUserInputException(SAME_START_END_CITY);
+    }
+
     Coordinate startCoordinates = apiService.getCityCoordinates(startCity);
     Coordinate endCoordinates = apiService.getCityCoordinates(endCity);
 

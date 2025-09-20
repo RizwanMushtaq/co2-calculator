@@ -97,7 +97,13 @@ public class ORSAPIService implements APIService {
 
       MatrixResponse matrix =
           ObjectMapperUtil.getMapper().readValue(responseBody, MatrixResponse.class);
-      return matrix.getDistance(0, 1);
+
+      Double distance = matrix.getDistance(0, 1);
+      if (distance == null || distance < 0) {
+        throw new InvalidUserInputException(UNKNOWN_ROUTE);
+      }
+
+      return distance;
     } catch (IOException e) {
       throw new ExternalAPIException(
           GET_DISTANCE_BETWEEN_COORDINATES_FAILED + " - " + e.getMessage());
