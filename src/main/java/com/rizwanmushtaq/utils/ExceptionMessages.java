@@ -13,4 +13,6 @@ public class ExceptionMessages {
   public static final String UNKNOWN_CITY_NAME = "Unknown city name provided: ";
   public static final String UNKNOWN_ROUTE = "No route found between the provided locations.";
   public static final String SAME_START_END_CITY = "Start city and end city cannot be the same.";
+  public static final String MISSING_ORS_TOKEN = "ORS_TOKEN environment variable is not set.";
+  public static final String EMPTY_CITY_NAME = "City name cannot be empty.";
 }

@@ -13,6 +13,13 @@ public class MatrixResponse {
   private Double[][] distances;
 
   public Double getDistance(int fromIndex, int toIndex) {
+    if (distances == null
+        || fromIndex < 0
+        || toIndex < 0
+        || fromIndex >= distances.length
+        || toIndex >= distances.length) {
+      return null;
+    }
     return distances[fromIndex][toIndex];
   }
 }

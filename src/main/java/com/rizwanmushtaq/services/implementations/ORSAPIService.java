@@ -7,6 +7,7 @@ import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
 import com.rizwanmushtaq.exceptions.InvalidUserInputException;
+import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.models.GeocodeSearchResponse;
 import com.rizwanmushtaq.models.MatrixResponse;
@@ -25,12 +26,20 @@ public class ORSAPIService implements APIService {
   }
 
   public ORSAPIService(OkHttpClient client, String orsToken) {
+    if (orsToken == null || orsToken.isBlank()) {
+      throw new ORSTokenException(MISSING_ORS_TOKEN);
+    }
+
     this.orsToken = orsToken;
     this.client = client;
   }
 
   @Override
   public Coordinate getCityCoordinates(String city) {
+    if (city == null || city.isBlank()) {
+      throw new InvalidUserInputException(EMPTY_CITY_NAME);
+    }
+
     String urlWithParams = getCityCoordinatesUrl(city, LOCALITY, 1);
     Request request =
         new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
@@ -59,7 +68,7 @@ public class ORSAPIService implements APIService {
       }
 
       return coordinate;
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new ExternalAPIException(
           GET_CITY_COORDINATES_FAILED + " - " + city + " - " + e.getMessage());
     }
