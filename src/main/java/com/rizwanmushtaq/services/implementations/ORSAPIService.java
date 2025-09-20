@@ -31,7 +31,7 @@ public class ORSAPIService implements APIService {
 
   @Override
   public Coordinate getCityCoordinates(String city) {
-    String urlWithParams = getCityCoordinatesUrl(city);
+    String urlWithParams = getCityCoordinatesUrl(city, LOCALITY, 1);
     Request request =
         new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
 
@@ -104,7 +104,7 @@ public class ORSAPIService implements APIService {
     }
   }
 
-  private String getCityCoordinatesUrl(String city) {
-    return GEOCODE_URL + "?" + "text=" + city + "&layers" + "=locality" + "&size=10";
+  private String getCityCoordinatesUrl(String city, String layer, int size) {
+    return GEOCODE_URL + "?text=" + city + "&layers=" + layer + "&size" + "=" + size;
   }
 }

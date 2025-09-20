@@ -12,4 +12,5 @@ public class AppConstants {
   public static final String UNITS = "units";
   public static final String KM = "km";
   public static final String UNKNOWN = "unknown";
+  public static final String LOCALITY = "locality";
 }
