@@ -4,8 +4,12 @@ import static com.rizwanmushtaq.exceptions.ExceptionHandlers.HANDLERS;
 import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.unexpectedException;
 import static com.rizwanmushtaq.utils.AppUtils.printResult;
 import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.CO2_DEBUG;
+import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.ORS_TOKEN;
+import static com.rizwanmushtaq.utils.ExceptionMessages.MISSING_ORS_TOKEN;
 import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
 
+import com.rizwanmushtaq.exceptions.GlobalExceptionHandler;
+import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.services.EmissionCalculatorService;
 import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
 import com.rizwanmushtaq.utils.VersionProvider;
@@ -43,6 +47,15 @@ public class App implements Callable<Integer> {
   }
 
   public static void main(String[] args) {
+    try {
+      if (ORS_TOKEN == null || ORS_TOKEN.isBlank()) {
+        throw new ORSTokenException(MISSING_ORS_TOKEN);
+      }
+    } catch (ORSTokenException e) {
+      int exitCode = GlobalExceptionHandler.orsTokenException(e, CO2_DEBUG);
+      System.exit(exitCode);
+    }
+
     int exitCode = new CommandLine(new App()).execute(args);
     System.exit(exitCode);
   }
