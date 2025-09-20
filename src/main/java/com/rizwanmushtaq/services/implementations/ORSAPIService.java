@@ -49,10 +49,10 @@ public class ORSAPIService implements APIService {
       String responseBody = response.body().string();
       System.out.println("Response Body: " + responseBody);
 
-      GeocodeSearchResponse geo =
+      GeocodeSearchResponse geocodeSearchResponse =
           ObjectMapperUtil.getMapper().readValue(responseBody, GeocodeSearchResponse.class);
 
-      return geo.getCoordinate();
+      return geocodeSearchResponse.getCoordinate();
     } catch (IOException e) {
       throw new ExternalAPIException(
           GET_CITY_COORDINATES_FAILED + " - " + city + " - " + e.getMessage());
