@@ -1,14 +1,14 @@
 package com.rizwanmushtaq;
 
 import static com.rizwanmushtaq.exceptions.ExceptionHandlers.HANDLERS;
-import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.unexpectedException;
+import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.handle;
+import static com.rizwanmushtaq.utils.AppUtils.isDebugSet;
 import static com.rizwanmushtaq.utils.AppUtils.printResult;
-import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.CO2_DEBUG;
 import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.ORS_TOKEN;
 import static com.rizwanmushtaq.utils.ExceptionMessages.MISSING_ORS_TOKEN;
 import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
 
-import com.rizwanmushtaq.exceptions.GlobalExceptionHandler;
+import com.rizwanmushtaq.exceptions.ExceptionCategory;
 import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.services.EmissionCalculatorService;
 import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
@@ -52,7 +52,7 @@ public class App implements Callable<Integer> {
         throw new ORSTokenException(MISSING_ORS_TOKEN);
       }
     } catch (ORSTokenException e) {
-      int exitCode = GlobalExceptionHandler.orsTokenException(e, CO2_DEBUG);
+      int exitCode = handle(e, ExceptionCategory.ORS_TOKEN, isDebugSet());
       System.exit(exitCode);
     }
 
@@ -77,6 +77,8 @@ public class App implements Callable<Integer> {
   }
 
   private int handleException(Exception e) {
-    return HANDLERS.getOrDefault(e.getClass(), ex -> unexpectedException(ex, CO2_DEBUG)).apply(e);
+    return HANDLERS
+        .getOrDefault(e.getClass(), ex -> handle(ex, ExceptionCategory.UNEXPECTED, isDebugSet()))
+        .apply(e);
   }
 }

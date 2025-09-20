@@ -1,70 +1,21 @@
 package com.rizwanmushtaq.exceptions;
 
-import com.rizwanmushtaq.utils.ExitCodes;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@NoArgsConstructor
 public class GlobalExceptionHandler {
   private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-  public static int userException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("User error: ", e);
+  public static int handle(Exception e, ExceptionCategory category, boolean isDebug) {
+    String message = category.getMessage();
+    int exitCode = category.getExitCode();
+
+    if (isDebug) {
+      logger.error("{}: ", message, e);
     } else {
-      logger.error("User error: {}", e.getMessage());
+      logger.error("{}: {}", message, e.getMessage());
     }
 
-    return ExitCodes.INVALID_INPUT;
-  }
-
-  public static int orsTokenException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("ORS_TOKEN error: ", e);
-    } else {
-      logger.error("ORS_TOKEN error: {}", e.getMessage());
-    }
-    return ExitCodes.CONFIG_ERROR;
-  }
-
-  public static int applicationPropertiesException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("Loading Application Properties error: ", e);
-    } else {
-      logger.error("Loading Application Properties error: {}", e.getMessage());
-    }
-    return ExitCodes.CONFIG_ERROR;
-  }
-
-  public static int externalException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("External/API error: ", e);
-    } else {
-      logger.error("External/API error: {}", e.getMessage());
-    }
-    return ExitCodes.EXTERNAL_ERROR;
-  }
-
-  public static int emissionFactorsConfigException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("Emission Factors Config error: ", e);
-    } else {
-      logger.error("Emission Factors Config error: {}", e.getMessage());
-    }
-    return ExitCodes.CONFIG_ERROR;
-  }
-
-  public static int unexpectedException(Exception e, String debug) {
-    if (isDebug(debug)) {
-      logger.error("Unexpected error: ", e);
-    } else {
-      logger.error("Unexpected error: {}", e.getMessage());
-    }
-    return ExitCodes.UNEXPECTED_ERROR;
-  }
-
-  private static boolean isDebug(String debug) {
-    return debug != null && debug.equals("true");
+    return exitCode;
   }
 }
