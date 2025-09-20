@@ -10,7 +10,7 @@ public class GlobalExceptionHandler {
   private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
   public static int userException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("User error: ", e);
     } else {
       logger.error("User error: {}", e.getMessage());
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
   }
 
   public static int orsTokenException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("ORS_TOKEN error: ", e);
     } else {
       logger.error("ORS_TOKEN error: {}", e.getMessage());
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
   }
 
   public static int applicationPropertiesException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("Loading Application Properties error: ", e);
     } else {
       logger.error("Loading Application Properties error: {}", e.getMessage());
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
   }
 
   public static int externalException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("External/API error: ", e);
     } else {
       logger.error("External/API error: {}", e.getMessage());
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
   }
 
   public static int emissionFactorsConfigException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("Emission Factors Config error: ", e);
     } else {
       logger.error("Emission Factors Config error: {}", e.getMessage());
@@ -56,11 +56,15 @@ public class GlobalExceptionHandler {
   }
 
   public static int unexpectedException(Exception e, String debug) {
-    if (debug == "true") {
+    if (isDebug(debug)) {
       logger.error("Unexpected error: ", e);
     } else {
       logger.error("Unexpected error: {}", e.getMessage());
     }
     return ExitCodes.UNEXPECTED_ERROR;
+  }
+
+  private static boolean isDebug(String debug) {
+    return debug != null && debug.equals("true");
   }
 }
