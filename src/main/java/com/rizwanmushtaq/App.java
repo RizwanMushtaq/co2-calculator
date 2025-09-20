@@ -2,8 +2,8 @@ package com.rizwanmushtaq;
 
 import static com.rizwanmushtaq.exceptions.ExceptionHandlers.HANDLERS;
 import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.unexpectedException;
-import static com.rizwanmushtaq.utils.AppConstants.DEBUG;
 import static com.rizwanmushtaq.utils.AppUtils.printResult;
+import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.CO2_DEBUG;
 import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
 
 import com.rizwanmushtaq.services.EmissionCalculatorService;
@@ -64,6 +64,6 @@ public class App implements Callable<Integer> {
   }
 
   private int handleException(Exception e) {
-    return HANDLERS.getOrDefault(e.getClass(), ex -> unexpectedException(ex, DEBUG)).apply(e);
+    return HANDLERS.getOrDefault(e.getClass(), ex -> unexpectedException(ex, CO2_DEBUG)).apply(e);
   }
 }

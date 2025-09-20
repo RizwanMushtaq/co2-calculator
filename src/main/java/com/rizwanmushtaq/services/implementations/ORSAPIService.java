@@ -1,6 +1,7 @@
 package com.rizwanmushtaq.services.implementations;
 
 import static com.rizwanmushtaq.utils.AppConstants.*;
+import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.ORS_TOKEN;
 import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -30,7 +31,8 @@ public class ORSAPIService implements APIService {
   @Override
   public Coordinate getCityCoordinates(String city) {
     String urlWithParams = getCityCoordinatesUrl(city);
-    Request request = new Request.Builder().url(urlWithParams).build();
+    Request request =
+        new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {
@@ -44,9 +46,11 @@ public class ORSAPIService implements APIService {
                 + response.body().string());
       }
 
+      String responseBody = response.body().string();
+      System.out.println("Response Body: " + responseBody);
+
       GeocodeSearchResponse geo =
-          ObjectMapperUtil.getMapper()
-              .readValue(response.body().string(), GeocodeSearchResponse.class);
+          ObjectMapperUtil.getMapper().readValue(responseBody, GeocodeSearchResponse.class);
 
       return geo.getCoordinate();
     } catch (IOException e) {
@@ -81,8 +85,11 @@ public class ORSAPIService implements APIService {
                 + response.body().string());
       }
 
+      String responseBody = response.body().string();
+      System.out.println("getDistanceBetweenCoordinates Response Body: " + responseBody);
+
       MatrixResponse matrix =
-          ObjectMapperUtil.getMapper().readValue(response.body().string(), MatrixResponse.class);
+          ObjectMapperUtil.getMapper().readValue(responseBody, MatrixResponse.class);
       return matrix.getDistance(0, 1);
     } catch (IOException e) {
       throw new ExternalAPIException(
@@ -91,6 +98,6 @@ public class ORSAPIService implements APIService {
   }
 
   private String getCityCoordinatesUrl(String city) {
-    return GEOCODE_URL + "?api_key=" + orsToken + "&text=" + city + "&layers=locality" + "&size=1";
+    return GEOCODE_URL + "?" + "text=" + city + "&layers" + "=locality" + "&size=10";
   }
 }

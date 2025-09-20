@@ -1,8 +1,10 @@
 package com.rizwanmushtaq.config;
 
+import static com.rizwanmushtaq.utils.ExceptionMessages.UNKNOWN_TRANSPORTATION_METHOD;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.rizwanmushtaq.exceptions.EmissionFactorsConfigException;
-import com.rizwanmushtaq.exceptions.InvalidTransportationMethodException;
+import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import com.rizwanmushtaq.utils.ObjectMapperUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +21,7 @@ public class EmissionFactorsConfig {
 
     Double value = emissionFactors.get(method);
     if (value == null) {
-      throw new InvalidTransportationMethodException("Unknown transportation method: " + method);
+      throw new InvalidUserInputException(UNKNOWN_TRANSPORTATION_METHOD + method);
     }
     return value;
   }
