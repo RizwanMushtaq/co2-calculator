@@ -30,30 +30,30 @@ locations using the OpenRouteService API.
 1. Sign up for an API key
    at [OpenRouteService](https://openrouteservice.org/sign-up/).
 2. Set the `ORS_TOKEN` environment variable with your API key.
-3. (Optional) Enable debug mode by setting the `DEBUG` environment variable to
-   `true`.
+3. (Optional) Enable debug mode by setting the `CO2_DEBUG` environment
+   variable to `true`.
 
 **For Windows users:**
 
 - **cmd.exe:**
   ```
   set ORS_TOKEN=your_api_key_here
-  set DEBUG=true   # (optional)
-  set DEBUG=       # (to disable debug mode)
+  set CO2_DEBUG=true   # (optional)
+  set CO2_DEBUG=false  # (to disable debug mode)
   ```
 - **PowerShell:**
   ```
   $env:ORS_TOKEN="your_api_key_here"
-  $env:DEBUG="true"   # (optional)
-  Remove-Item Env:\DEBUG   # (to disable debug mode)
+  $env:CO2_DEBUG="true"   # (optional)
+  Remove-Item Env:\CO2_DEBUG   # (to disable debug mode)
   ```
 
 **For Linux or Mac users:**
 
   ```
   export ORS_TOKEN="your_api_key_here"
-  export DEBUG="true"   # (optional)
-  unset DEBUG            # (to disable debug mode)
+  export CO2_DEBUG="true"   # (optional)
+  unset CO2_DEBUG           # (to disable debug mode)
   ```
 
 ### Building and Running the Application
