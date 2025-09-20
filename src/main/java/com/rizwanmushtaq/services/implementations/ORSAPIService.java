@@ -6,6 +6,7 @@ import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
+import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.models.GeocodeSearchResponse;
 import com.rizwanmushtaq.models.MatrixResponse;
@@ -52,7 +53,13 @@ public class ORSAPIService implements APIService {
       GeocodeSearchResponse geocodeSearchResponse =
           ObjectMapperUtil.getMapper().readValue(responseBody, GeocodeSearchResponse.class);
 
-      return geocodeSearchResponse.getCoordinate();
+      Coordinate coordinate = geocodeSearchResponse.getCoordinate();
+
+      if (coordinate == null) {
+        throw new InvalidUserInputException(UNKNOWN_CITY_NAME + city);
+      }
+
+      return coordinate;
     } catch (IOException e) {
       throw new ExternalAPIException(
           GET_CITY_COORDINATES_FAILED + " - " + city + " - " + e.getMessage());

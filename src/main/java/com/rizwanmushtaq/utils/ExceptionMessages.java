@@ -10,5 +10,5 @@ public class ExceptionMessages {
   public static final String GET_DISTANCE_BETWEEN_COORDINATES_UNSUCCESSFUL =
       "Unsuccessful response from matrix API.";
   public static final String UNKNOWN_TRANSPORTATION_METHOD = "Unknown transportation method: ";
-  public static final String UNKNOWN_CITY_NAME = "Unknown city name provided.";
+  public static final String UNKNOWN_CITY_NAME = "Unknown city name provided: ";
 }

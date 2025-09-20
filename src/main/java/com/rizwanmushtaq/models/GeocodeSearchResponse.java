@@ -1,9 +1,6 @@
 package com.rizwanmushtaq.models;
 
-import static com.rizwanmushtaq.utils.ExceptionMessages.UNKNOWN_CITY_NAME;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,22 +15,12 @@ public class GeocodeSearchResponse {
 
   public Coordinate getCoordinate() {
     if (features == null || features.isEmpty()) {
-      throw new InvalidUserInputException(UNKNOWN_CITY_NAME);
+      return null;
     }
 
-    return new Coordinate(getLongitude(), getLatitude());
-  }
-
-  private double getLongitude() {
-    return features.getFirst().getGeometry().getLongitude();
-  }
-
-  private double getLatitude() {
-    return features.getFirst().getGeometry().getLatitude();
-  }
-
-  private String getCityName() {
-    return features.getFirst().getName();
+    double longitude = features.getFirst().getGeometry().getLongitude();
+    double latitude = features.getFirst().getGeometry().getLatitude();
+    return new Coordinate(longitude, latitude);
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
