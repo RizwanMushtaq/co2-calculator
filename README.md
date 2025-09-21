@@ -149,7 +149,6 @@ mvn test
 To generate a code coverage report:
 
 ```
-mvn test
 mvn jacoco:report
 ```
 
