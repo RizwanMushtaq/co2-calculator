@@ -3,8 +3,7 @@ package com.rizwanmushtaq.services.implementations;
 import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
 import com.rizwanmushtaq.exceptions.InvalidUserInputException;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import okhttp3.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class ORSAPIServiceTest {
   private static final String DUMMY_URL = "http://dummyURL";
@@ -27,7 +27,8 @@ class ORSAPIServiceTest {
   void setUp() {
     mockClient = mock(OkHttpClient.class);
     mockCall = mock(Call.class);
-    orsapiService = new ORSAPIService("dummyToken") {};
+    orsapiService = Mockito.spy(new ORSAPIService("dummy-token"));
+    doReturn(mockClient).when(orsapiService).createClient();
   }
 
   private Response buildResponse(int code, String body) {
@@ -40,30 +41,30 @@ class ORSAPIServiceTest {
         .build();
   }
 
-  //  @Test
-  //  void testGetCityCoordinatesSuccess() throws IOException {
-  //    String jsonBody =
-  //        """
-  //        {
-  //          "features": [
-  //            {
-  //              "geometry": {
-  //                "coordinates": [10.0, 20.0]
-  //              }
-  //            }
-  //          ]
-  //        }
-  //        """;
-  //
-  //    when(mockClient.newCall(any(Request.class))).thenReturn(mockCall);
-  //    Response response = buildResponse(200, jsonBody);
-  //    when(mockCall.execute()).thenReturn(response);
-  //    Coordinate coordinate = orsapiService.getCityCoordinates("Berlin");
-  //
-  //    assertNotNull(coordinate);
-  //    assertEquals(10.0, coordinate.longitude());
-  //    assertEquals(20.0, coordinate.latitude());
-  //  }
+  @Test
+  void testGetCityCoordinatesSuccess() throws IOException {
+    String jsonBody =
+        """
+          {
+            "features": [
+              {
+                "geometry": {
+                  "coordinates": [10.0, 20.0]
+                }
+              }
+            ]
+          }
+          """;
+
+    when(mockClient.newCall(any(Request.class))).thenReturn(mockCall);
+    Response response = buildResponse(200, jsonBody);
+    when(mockCall.execute()).thenReturn(response);
+    Coordinate coordinate = orsapiService.getCityCoordinates("Berlin");
+
+    assertNotNull(coordinate);
+    assertEquals(10.0, coordinate.longitude());
+    assertEquals(20.0, coordinate.latitude());
+  }
 
   @Test
   void testGetCityCoordinatesUnsuccessful() throws Exception {
@@ -241,9 +242,9 @@ class ORSAPIServiceTest {
     when(mockCall.execute()).thenReturn(buildResponse(200, jsonBody));
     Coordinate start = new Coordinate(10.0, 20.0);
     Coordinate end = new Coordinate(30.0, 40.0);
-    ExternalAPIException ex =
+    InvalidUserInputException ex =
         assertThrows(
-            ExternalAPIException.class,
+            InvalidUserInputException.class,
             () -> orsapiService.getDistanceBetweenCoordinates(start, end));
   }
 
@@ -274,7 +275,7 @@ class ORSAPIServiceTest {
         assertThrows(
             ExternalAPIException.class,
             () -> orsapiService.getDistanceBetweenCoordinates(start, end));
-    assertTrue(ex.getMessage().contains(GET_DISTANCE_BETWEEN_COORDINATES_UNSUCCESSFUL));
+    assertTrue(ex.getMessage().contains(GET_DISTANCE_BETWEEN_COORDINATES_FAILED));
   }
 
   @Test

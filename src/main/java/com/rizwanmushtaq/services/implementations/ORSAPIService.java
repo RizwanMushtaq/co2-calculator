@@ -36,7 +36,7 @@ public class ORSAPIService implements APIService {
     String urlWithParams = getCityCoordinatesUrl(city, LOCALITY, 1);
     Request request =
         new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = createClient();
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {
@@ -83,7 +83,7 @@ public class ORSAPIService implements APIService {
 
     Request request =
         new Request.Builder().url(MATRIX_URL).addHeader(AUTHORIZATION, orsToken).post(body).build();
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = createClient();
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {
@@ -114,5 +114,9 @@ public class ORSAPIService implements APIService {
 
   private String getCityCoordinatesUrl(String city, String layer, int size) {
     return GEOCODE_URL + "?text=" + city + "&layers=" + layer + "&size" + "=" + size;
+  }
+
+  protected OkHttpClient createClient() {
+    return new OkHttpClient();
   }
 }
