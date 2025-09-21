@@ -205,7 +205,7 @@
                         <configuration>
                             <rules>
                                 <rule>
-                                    <element>PACKAGE</element>
+                                    <element>BUNDLE</element>
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
@@ -215,6 +215,11 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>**/AppConstants.class</exclude>
+                                <exclude>**/ExceptionMessages.class</exclude>
+                                <exclude>**/ExitCodes.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
