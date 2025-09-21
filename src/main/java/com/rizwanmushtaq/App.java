@@ -28,16 +28,16 @@ public class App implements Callable<Integer> {
   private final EmissionCalculatorService emissionCalculatorService;
 
   @Option(names = "--start", required = true, description = "Start city")
-  private String start;
+  protected String start;
 
   @Option(names = "--end", required = true, description = "End city")
-  private String end;
+  protected String end;
 
   @Option(
       names = "--transportation-method",
       required = true,
       description = "Transportation method (e.g., diesel-car-small, petrol-car-medium etc.)")
-  private String transportMethod;
+  protected String transportMethod;
 
   public App() {
     this(new ORSEmissionCalculatorService());
