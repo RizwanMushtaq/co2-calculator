@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class EmissionFactorsConfig {
-  private static Map<String, Double> emissionFactors = null;
+  protected static Map<String, Double> emissionFactors = null;
 
   public static double getEmissionFactor(String method) {
     if (emissionFactors == null) {
@@ -26,9 +26,9 @@ public class EmissionFactorsConfig {
     return value;
   }
 
-  public static void loadConfig() {
+  public static void loadConfig(String fileName) {
     try (InputStream input =
-        EmissionFactorsConfig.class.getClassLoader().getResourceAsStream(EMISSION_FACTORS_FILE)) {
+        EmissionFactorsConfig.class.getClassLoader().getResourceAsStream(fileName)) {
 
       if (input == null) {
         throw new EmissionFactorsConfigException(EMISSION_FACTORS_NOT_FOUND);
