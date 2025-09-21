@@ -52,6 +52,7 @@ jobs:
         if: always()
         uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: target/site/jacoco/jacoco.xml
   
   build:
