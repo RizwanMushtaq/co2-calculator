@@ -1,10 +1,12 @@
 package com.rizwanmushtaq.services.implementations;
 
+import static com.rizwanmushtaq.utils.ExceptionMessages.SAME_START_END_CITY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
+import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import com.rizwanmushtaq.models.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,15 @@ class ORSDistanceServiceTest {
     verify(mockApiService).getCityCoordinates("Berlin");
     verify(mockApiService).getCityCoordinates("Hamburg");
     verify(mockApiService).getDistanceBetweenCoordinates(berlin, hamburg);
+  }
+
+  @Test
+  void testGetDistanceBetweenSameCities() {
+    InvalidUserInputException ex =
+        assertThrows(
+            InvalidUserInputException.class,
+            () -> distanceService.getDistanceBetweenCities("Berlin", "Berlin"));
+    assertEquals(SAME_START_END_CITY, ex.getMessage());
   }
 
   @Test
