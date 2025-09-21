@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class ExceptionHandlers {
-  private static final boolean isDebugActive = isDebugSet(CO2_DEBUG);
+  private static boolean isDebugActive = isDebugSet(CO2_DEBUG);
 
   public static final Map<Class<? extends Exception>, Function<Exception, Integer>> HANDLERS =
       Map.of(
