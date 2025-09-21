@@ -3,6 +3,8 @@ package com.rizwanmushtaq.utils;
 import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.CO2_DEBUG;
 
 public class AppUtils {
+  private static final String co2Debug = CO2_DEBUG;
+
   /**
    * Print the result to console
    *
@@ -12,11 +14,8 @@ public class AppUtils {
     System.out.println("Your trip caused " + result + "kg of CO2-equivalent.");
   }
 
-  /**
-   * Check if debug mode is set via environment variable If CO2_DEBUG is set to "true", debug mode
-   * is enabled Otherwise, debug mode is disabled
-   */
-  public static boolean isDebugSet() {
-    return CO2_DEBUG != null && CO2_DEBUG.equals("true");
+  /** Check if debug mode is set */
+  public static boolean isDebugSet(String co2Debug) {
+    return co2Debug != null && co2Debug.equals("true");
   }
 }

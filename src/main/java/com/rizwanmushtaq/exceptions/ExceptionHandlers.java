@@ -2,12 +2,13 @@ package com.rizwanmushtaq.exceptions;
 
 import static com.rizwanmushtaq.exceptions.GlobalExceptionHandler.*;
 import static com.rizwanmushtaq.utils.AppUtils.isDebugSet;
+import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.CO2_DEBUG;
 
 import java.util.Map;
 import java.util.function.Function;
 
 public class ExceptionHandlers {
-  private static final boolean isDebugActive = isDebugSet();
+  private static final boolean isDebugActive = isDebugSet(CO2_DEBUG);
 
   public static final Map<Class<? extends Exception>, Function<Exception, Integer>> HANDLERS =
       Map.of(
