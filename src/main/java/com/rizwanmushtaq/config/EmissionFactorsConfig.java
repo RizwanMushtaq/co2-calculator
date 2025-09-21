@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class EmissionFactorsConfig {
-  protected static Map<String, Double> emissionFactors = null;
+  private static Map<String, Double> emissionFactors = null;
 
   public static double getEmissionFactor(String method) {
     if (emissionFactors == null) {
