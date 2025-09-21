@@ -7,7 +7,6 @@ import static com.rizwanmushtaq.utils.ExceptionMessages.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
 import com.rizwanmushtaq.exceptions.InvalidUserInputException;
-import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.models.GeocodeSearchResponse;
 import com.rizwanmushtaq.models.MatrixResponse;
@@ -18,20 +17,14 @@ import java.util.List;
 import okhttp3.*;
 
 public class ORSAPIService implements APIService {
-  private final OkHttpClient client;
   private final String orsToken;
 
   public ORSAPIService() {
-    this(new OkHttpClient(), ORS_TOKEN);
+    this(ORS_TOKEN);
   }
 
-  public ORSAPIService(OkHttpClient client, String orsToken) {
-    if (orsToken == null || orsToken.isBlank()) {
-      throw new ORSTokenException(MISSING_ORS_TOKEN);
-    }
-
+  public ORSAPIService(String orsToken) {
     this.orsToken = orsToken;
-    this.client = client;
   }
 
   @Override
@@ -43,6 +36,7 @@ public class ORSAPIService implements APIService {
     String urlWithParams = getCityCoordinatesUrl(city, LOCALITY, 1);
     Request request =
         new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
+    OkHttpClient client = new OkHttpClient();
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {
@@ -89,6 +83,7 @@ public class ORSAPIService implements APIService {
 
     Request request =
         new Request.Builder().url(MATRIX_URL).addHeader(AUTHORIZATION, orsToken).post(body).build();
+    OkHttpClient client = new OkHttpClient();
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {

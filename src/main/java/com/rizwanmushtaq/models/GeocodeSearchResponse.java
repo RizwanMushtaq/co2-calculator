@@ -1,6 +1,7 @@
 package com.rizwanmushtaq.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class GeocodeSearchResponse {
-  private List<Feature> features;
+  @JsonProperty private List<Feature> features;
 
   public Coordinate getCoordinate() {
     if (features == null || features.isEmpty()) {
@@ -28,12 +29,8 @@ public class GeocodeSearchResponse {
   @ToString
   @NoArgsConstructor
   private static class Feature {
-    private Geometry geometry;
-    private Properties properties;
-
-    public String getName() {
-      return properties.getName();
-    }
+    @JsonProperty private Geometry geometry;
+    @JsonProperty private Properties properties;
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,7 +38,7 @@ public class GeocodeSearchResponse {
   @ToString
   @NoArgsConstructor
   private static class Geometry {
-    private List<Double> coordinates;
+    @JsonProperty private List<Double> coordinates;
 
     public double getLongitude() {
       return coordinates.getFirst();
@@ -57,6 +54,6 @@ public class GeocodeSearchResponse {
   @ToString
   @NoArgsConstructor
   private static class Properties {
-    private String name;
+    @JsonProperty private String name = null;
   }
 }
