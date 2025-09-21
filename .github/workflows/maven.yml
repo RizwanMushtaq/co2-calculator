@@ -32,29 +32,23 @@ jobs:
           java-version: '21'
           distribution: temurin
           cache: maven
-      - name: Run Tests
-        run: mvn -B test
+      - name: Run Tests and collect reports
+        run: mvn -B clean verify
+
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: target/surefire-reports
-      - name: Run CheckCoverage
-        run: mvn -B clean verify
+
       - name: Upload JaCoCo coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco/
-      - name: Upload coverage to Codecov
-        if: always()
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco/jacoco.xml
-  
+
   build:
     name: Build Application
     runs-on: ubuntu-latest
