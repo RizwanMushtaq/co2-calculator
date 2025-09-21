@@ -48,12 +48,14 @@ class AppTest {
   @Test
   void call_shouldReturnHandleExceptionCode_whenInitThrowsException() {
     try (MockedStatic<AppInitializer> mocked = mockStatic(AppInitializer.class)) {
-      mocked.when(AppInitializer::init).thenThrow(new EmissionFactorsConfigException("Initialization failed"));
+      mocked
+          .when(AppInitializer::init)
+          .thenThrow(new EmissionFactorsConfigException("Initialization failed"));
 
       App app = new App(mock(EmissionCalculatorService.class));
-      app.start = "CityA";
-      app.end = "CityB";
-      app.transportMethod = "diesel-car-small";
+      app.setStart("CityA");
+      app.setEnd("CityB");
+      app.setTransportMethod("diesel-car-small");
       int exitCode = app.call();
 
       assertEquals(CONFIG_ERROR, exitCode);

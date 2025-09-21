@@ -15,6 +15,8 @@ import com.rizwanmushtaq.services.EmissionCalculatorService;
 import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
 import com.rizwanmushtaq.utils.VersionProvider;
 import java.util.concurrent.Callable;
+import lombok.Getter;
+import lombok.Setter;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,20 +26,22 @@ import picocli.CommandLine.Option;
     mixinStandardHelpOptions = true,
     versionProvider = VersionProvider.class,
     description = "Calculates CO2 emissions between two cities.")
+@Getter
+@Setter
 public class App implements Callable<Integer> {
   private final EmissionCalculatorService emissionCalculatorService;
 
   @Option(names = "--start", required = true, description = "Start city")
-  protected String start;
+  private String start;
 
   @Option(names = "--end", required = true, description = "End city")
-  protected String end;
+  private String end;
 
   @Option(
       names = "--transportation-method",
       required = true,
       description = "Transportation method (e.g., diesel-car-small, petrol-car-medium etc.)")
-  protected String transportMethod;
+  private String transportMethod;
 
   public App() {
     this(new ORSEmissionCalculatorService());
