@@ -15,6 +15,7 @@ public class ExceptionMessages {
   public static final String SAME_START_END_CITY = "Start city and end city cannot be the same.";
   public static final String MISSING_ORS_TOKEN = "ORS_TOKEN environment variable is not set.";
   public static final String EMPTY_CITY_NAME = "City name cannot be empty.";
+  public static final String EMPTY_CITY_NAMES = "City names cannot be null or empty.";
   public static final String EMISSION_FACTORS_NOT_LOADED =
       "Emission factors not loaded. Please load the configuration first.";
   public static final String EMISSION_FACTORS_NOT_FOUND =

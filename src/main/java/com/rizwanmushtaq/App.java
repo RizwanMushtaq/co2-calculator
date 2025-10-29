@@ -12,7 +12,7 @@ import static com.rizwanmushtaq.utils.ExitCodes.SUCCESS;
 import com.rizwanmushtaq.exceptions.ExceptionCategory;
 import com.rizwanmushtaq.exceptions.ORSTokenException;
 import com.rizwanmushtaq.services.EmissionCalculatorService;
-import com.rizwanmushtaq.services.implementations.ORSEmissionCalculatorService;
+import com.rizwanmushtaq.services.implementations.OrsEmissionCalculatorService;
 import com.rizwanmushtaq.utils.VersionProvider;
 import java.util.concurrent.Callable;
 import lombok.Getter;
@@ -44,7 +44,7 @@ public class App implements Callable<Integer> {
   private String transportMethod;
 
   public App() {
-    this(new ORSEmissionCalculatorService());
+    this(new OrsEmissionCalculatorService());
   }
 
   public App(EmissionCalculatorService emissionCalculatorService) {

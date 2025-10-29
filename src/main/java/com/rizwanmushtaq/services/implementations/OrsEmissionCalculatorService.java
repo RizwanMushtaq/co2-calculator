@@ -6,14 +6,21 @@ import static com.rizwanmushtaq.utils.NumberUtils.truncate;
 import com.rizwanmushtaq.services.DistanceService;
 import com.rizwanmushtaq.services.EmissionCalculatorService;
 
-public class ORSEmissionCalculatorService implements EmissionCalculatorService {
+/** Calculates Emissions using ORS Api. */
+public class OrsEmissionCalculatorService implements EmissionCalculatorService {
   private final DistanceService distanceService;
 
-  public ORSEmissionCalculatorService() {
-    this(new ORSDistanceService());
+  /** It is a default constructor. */
+  public OrsEmissionCalculatorService() {
+    this(new OrsDistanceService());
   }
 
-  public ORSEmissionCalculatorService(ORSDistanceService orsDistanceService) {
+  /**
+   * Creates a new instance of {@code OrsEmissionCalculatorService} for testing purposes.
+   *
+   * @param orsDistanceService -> implemtation of DistanceService interface.
+   */
+  public OrsEmissionCalculatorService(OrsDistanceService orsDistanceService) {
     this.distanceService = orsDistanceService;
   }
 

@@ -14,20 +14,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class ORSAPIServiceTest {
+class OrsApiServiceTest {
   private static final String DUMMY_URL = "http://dummyURL";
   private static final String DUMMY_MESSAGE = "dummy message";
   private static final MediaType JSON_MEDIA_TYPE = MediaType.get("application/json");
 
   private OkHttpClient mockClient;
   private Call mockCall;
-  private ORSAPIService orsapiService;
+  private OrsApiService orsapiService;
 
   @BeforeEach
   void setUp() {
     mockClient = mock(OkHttpClient.class);
     mockCall = mock(Call.class);
-    orsapiService = Mockito.spy(new ORSAPIService("dummy-token"));
+    orsapiService = Mockito.spy(new OrsApiService("dummy-token"));
     doReturn(mockClient).when(orsapiService).createClient();
   }
 

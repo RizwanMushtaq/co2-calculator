@@ -11,14 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-class ORSEmissionCalculatorServiceTest {
-  private ORSDistanceService mockDistanceService;
-  private ORSEmissionCalculatorService emissionCalculatorService;
+class OrsEmissionCalculatorServiceTest {
+  private OrsDistanceService mockDistanceService;
+  private OrsEmissionCalculatorService emissionCalculatorService;
 
   @BeforeEach
   void setUp() {
-    mockDistanceService = mock(ORSDistanceService.class);
-    emissionCalculatorService = new ORSEmissionCalculatorService(mockDistanceService);
+    mockDistanceService = mock(OrsDistanceService.class);
+    emissionCalculatorService = new OrsEmissionCalculatorService(mockDistanceService);
   }
 
   @Test

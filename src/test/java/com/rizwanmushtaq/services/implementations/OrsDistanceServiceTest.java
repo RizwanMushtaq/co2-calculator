@@ -11,14 +11,14 @@ import com.rizwanmushtaq.models.Coordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ORSDistanceServiceTest {
-  private ORSAPIService mockApiService;
-  private ORSDistanceService distanceService;
+class OrsDistanceServiceTest {
+  private OrsApiService mockApiService;
+  private OrsDistanceService distanceService;
 
   @BeforeEach
   void setUp() {
-    mockApiService = mock(ORSAPIService.class);
-    distanceService = new ORSDistanceService(mockApiService);
+    mockApiService = mock(OrsApiService.class);
+    distanceService = new OrsDistanceService(mockApiService);
   }
 
   @Test

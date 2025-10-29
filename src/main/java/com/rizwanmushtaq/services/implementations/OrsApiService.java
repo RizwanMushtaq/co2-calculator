@@ -1,8 +1,23 @@
 package com.rizwanmushtaq.services.implementations;
 
-import static com.rizwanmushtaq.utils.AppConstants.*;
+import static com.rizwanmushtaq.utils.AppConstants.APPLICATION_JSON;
+import static com.rizwanmushtaq.utils.AppConstants.AUTHORIZATION;
+import static com.rizwanmushtaq.utils.AppConstants.DISTANCE;
+import static com.rizwanmushtaq.utils.AppConstants.GEOCODE_URL;
+import static com.rizwanmushtaq.utils.AppConstants.KM;
+import static com.rizwanmushtaq.utils.AppConstants.LOCALITY;
+import static com.rizwanmushtaq.utils.AppConstants.LOCATIONS;
+import static com.rizwanmushtaq.utils.AppConstants.MATRIX_URL;
+import static com.rizwanmushtaq.utils.AppConstants.METRICS;
+import static com.rizwanmushtaq.utils.AppConstants.UNITS;
 import static com.rizwanmushtaq.utils.EnvironmentVariablesProvider.ORS_TOKEN;
-import static com.rizwanmushtaq.utils.ExceptionMessages.*;
+import static com.rizwanmushtaq.utils.ExceptionMessages.EMPTY_CITY_NAME;
+import static com.rizwanmushtaq.utils.ExceptionMessages.GET_CITY_COORDINATES_FAILED;
+import static com.rizwanmushtaq.utils.ExceptionMessages.GET_CITY_COORDINATES_UNSUCCESSFUL;
+import static com.rizwanmushtaq.utils.ExceptionMessages.GET_DISTANCE_BETWEEN_COORDINATES_FAILED;
+import static com.rizwanmushtaq.utils.ExceptionMessages.GET_DISTANCE_BETWEEN_COORDINATES_UNSUCCESSFUL;
+import static com.rizwanmushtaq.utils.ExceptionMessages.UNKNOWN_CITY_NAME;
+import static com.rizwanmushtaq.utils.ExceptionMessages.UNKNOWN_ROUTE;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.rizwanmushtaq.exceptions.ExternalAPIException;
@@ -10,20 +25,31 @@ import com.rizwanmushtaq.exceptions.InvalidUserInputException;
 import com.rizwanmushtaq.models.Coordinate;
 import com.rizwanmushtaq.models.GeocodeSearchResponse;
 import com.rizwanmushtaq.models.MatrixResponse;
-import com.rizwanmushtaq.services.APIService;
+import com.rizwanmushtaq.services.ApiService;
 import com.rizwanmushtaq.utils.ObjectMapperUtil;
 import java.io.IOException;
 import java.util.List;
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class ORSAPIService implements APIService {
+/** Implementation of ApiService using ORS API. */
+public class OrsApiService implements ApiService {
   private final String orsToken;
 
-  public ORSAPIService() {
+  /** It is a default constructor. */
+  public OrsApiService() {
     this(ORS_TOKEN);
   }
 
-  public ORSAPIService(String orsToken) {
+  /**
+   * Create a new Instance of OrsApiService for testing purpose.
+   *
+   * @param orsToken -> token to be used to access ors api.
+   */
+  public OrsApiService(String orsToken) {
     this.orsToken = orsToken;
   }
 
@@ -33,7 +59,7 @@ public class ORSAPIService implements APIService {
       throw new InvalidUserInputException(EMPTY_CITY_NAME);
     }
 
-    String urlWithParams = getCityCoordinatesUrl(city, LOCALITY, 1);
+    String urlWithParams = getCityCoordinatesUrl(city);
     Request request =
         new Request.Builder().addHeader(AUTHORIZATION, orsToken).url(urlWithParams).build();
     OkHttpClient client = createClient();
@@ -112,10 +138,15 @@ public class ORSAPIService implements APIService {
     }
   }
 
-  private String getCityCoordinatesUrl(String city, String layer, int size) {
-    return GEOCODE_URL + "?text=" + city + "&layers=" + layer + "&size" + "=" + size;
+  private String getCityCoordinatesUrl(String city) {
+    return GEOCODE_URL + "?text=" + city + "&layers=" + LOCALITY + "&size" + "=" + 1;
   }
 
+  /**
+   * package scoped Http Client for testing purpose.
+   *
+   * @return -> new Http Client.
+   */
   protected OkHttpClient createClient() {
     return new OkHttpClient();
   }
