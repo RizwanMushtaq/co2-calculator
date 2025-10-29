@@ -44,7 +44,7 @@ class OrsDistanceServiceTest {
         assertThrows(
             InvalidUserInputException.class,
             () -> distanceService.getDistanceBetweenCities("Berlin", "Berlin"));
-    assertEquals(SAME_START_END_CITY, ex.getMessage());
+    assertEquals(SAME_START_END_CITY + " Berlin", ex.getMessage());
   }
 
   @Test
